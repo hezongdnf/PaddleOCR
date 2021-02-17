@@ -1,25 +1,25 @@
 Global:
-  use_gpu: true
+  use_gpu: false
   epoch_num: 500
   log_smooth_window: 20
   print_batch_step: 10
-  save_model_dir: ./output/rec_chinese_common_v2.0
+  save_model_dir: ./output/rec_ch
   save_epoch_step: 3
   # evaluation is run every 5000 iterations after the 4000th iteration
   eval_batch_step: [0, 2000]
   # if pretrained_model is saved in static mode, load_static_weights must set to True
   cal_metric_during_train: True
-  pretrained_model:
+  pretrained_model: pretrain_models/ch_ppocr_server_v2.0_rec_pre/best_accuracy
   checkpoints:
   save_inference_dir:
   use_visualdl: False
   infer_img: doc/imgs_words/ch/word_1.jpg
   # for data or label process
-  character_dict_path: ppocr/utils/ppocr_keys_v1.txt
+  character_dict_path: train_data/ch_data/vocab.txt
   character_type: ch
-  max_text_length: 25
+  max_text_length: 125
   infer_mode: False
-  use_space_char: True
+  use_space_char: False
 
 
 Optimizer:
@@ -61,8 +61,8 @@ Metric:
 Train:
   dataset:
     name: SimpleDataSet
-    data_dir: ./train_data/
-    label_file_list: ["./train_data/train_list.txt"]
+    data_dir: ./train_data/ch_data/
+    label_file_list: ["./train_data/ch_data/train.txt"]
     transforms:
       - DecodeImage: # load image
           img_mode: BGR
@@ -82,8 +82,8 @@ Train:
 Eval:
   dataset:
     name: SimpleDataSet
-    data_dir: ./train_data/
-    label_file_list: ["./train_data/val_list.txt"]
+    data_dir: ./train_data/ch_data/
+    label_file_list: ["./train_data/ch_data/dev.txt"]
     transforms:
       - DecodeImage: # load image
           img_mode: BGR
